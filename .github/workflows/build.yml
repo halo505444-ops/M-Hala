@@ -9,23 +9,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Unzip all zip files automatically
-        run: |
-          echo "Looking for zip files..."
-          for file in *.zip; do
-            if [ -f "$file" ]; then
-              echo "Extracting $file..."
-              unzip -o "$file" -d extracted_files/
-            fi
-          done
-          # گواستنەوەی فایلە دەرکراوەکان بۆ شوێنی سەرەکی تاوەکو Theos بیانبینێت
-          if [ -d "extracted_files" ]; then
-            cp -r extracted_files/* ./ 2>/dev/null || true
-          fi
-
       - name: Setup Theos
         uses: primegem/theos-action@v1
 
       - name: Compile dylib
         run: |
-          make package 
+          make package
