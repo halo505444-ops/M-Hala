@@ -1,0 +1,29 @@
+name: Build Mod Menu
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Extract all zips
+        run: |
+          for f in *.zip; do
+            if [ -f "$f" ]; then
+              unzip -o "$f"
+            fi
+          done
+          # گەڕان بەدوای Makefile بۆ ئەوەی بڕواتە سەرەتا
+          if [ -d "menu1" ]; then
+            cd menu1
+          fi
+
+      - name: Setup Theos
+        uses: primegem/theos-action@v1
+
+      - name: Compile dylib
+        run: |
+          make package
